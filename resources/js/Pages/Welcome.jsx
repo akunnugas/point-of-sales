@@ -169,16 +169,78 @@ export default function Welcome() {
                                         dashboard.aplikasikasir.com
                                     </div>
                                 </div>
-                                <div className="aspect-video bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 flex items-center justify-center">
-                                    <div className="text-center">
-                                        <IconCloudLock
-                                            size={64}
-                                            className="mx-auto text-slate-300 dark:text-slate-700 mb-4"
-                                        />
-                                        <p className="text-slate-400 dark:text-slate-600">
-                                            Preview Dashboard
-                                        </p>
-                                    </div>
+                                <img
+                                    src="/media/revamp-pos.png"
+                                    alt="Preview POS Dashboard"
+                                    className="w-full"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Version Comparison */}
+                <section className="py-20 px-6 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="text-center mb-12">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-950 text-primary-600 dark:text-primary-400 text-sm font-medium mb-4">
+                                <IconArrowRight size={16} />
+                                Before & After
+                            </div>
+                            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">
+                                Perjalanan Evolusi
+                            </h2>
+                            <p className="mt-4 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                                Dari versi pertama hingga redesign modern dengan
+                                UI/UX yang lebih baik
+                            </p>
+                        </div>
+
+                        {/* Comparison Grid */}
+                        <div className="grid md:grid-cols-2 gap-8">
+                            {/* V1 */}
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-center gap-2 text-slate-500 dark:text-slate-400">
+                                    <span className="px-3 py-1 bg-slate-200 dark:bg-slate-700 rounded-full text-sm font-medium">
+                                        Version 1.0
+                                    </span>
+                                </div>
+                                <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-600 shadow-lg">
+                                    <img
+                                        src="/media/readme-pos.png"
+                                        alt="POS V1"
+                                        className="w-full"
+                                    />
+                                </div>
+                                <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-600 shadow-lg">
+                                    <img
+                                        src="/media/readme-dashboard.png"
+                                        alt="Dashboard V1"
+                                        className="w-full"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Revamp */}
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-center gap-2">
+                                    <span className="px-3 py-1 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-full text-sm font-medium">
+                                        ✨ Revamp 2.0
+                                    </span>
+                                </div>
+                                <div className="rounded-xl overflow-hidden border-2 border-primary-500 shadow-lg shadow-primary-500/20">
+                                    <img
+                                        src="/media/revamp-pos.png"
+                                        alt="POS Revamp"
+                                        className="w-full"
+                                    />
+                                </div>
+                                <div className="rounded-xl overflow-hidden border-2 border-primary-500 shadow-lg shadow-primary-500/20">
+                                    <img
+                                        src="/media/revamp-dashboard.png"
+                                        alt="Dashboard Revamp"
+                                        className="w-full"
+                                    />
                                 </div>
                             </div>
                         </div>
