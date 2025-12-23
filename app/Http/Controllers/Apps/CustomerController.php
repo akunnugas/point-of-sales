@@ -66,6 +66,46 @@ class CustomerController extends Controller
     }
 
     /**
+     * Store a newly created customer via AJAX (returns JSON, no redirect)
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeAjax(Request $request)
+    {
+        $validated = $request->validate([
+            'name'    => 'required|string|max:255',
+            'no_telp' => 'required|string|unique:customers,no_telp',
+            'address' => 'required|string',
+        ]);
+
+        try {
+            $customer = Customer::create([
+                'name'    => $validated['name'],
+                'no_telp' => $validated['no_telp'],
+                'address' => $validated['address'],
+            ]);
+
+            return response()->json([
+                'success'  => true,
+                'message'  => 'Pelanggan berhasil ditambahkan',
+                'customer' => [
+                    'id'      => $customer->id,
+                    'name'    => $customer->name,
+                    'phone'   => $customer->no_telp,
+                    'address' => $customer->address,
+                ],
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menambahkan pelanggan',
+                'errors'  => [],
+            ], 500);
+        }
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { router } from "@inertiajs/react";
 import {
     IconUser,
     IconSearch,
@@ -59,9 +60,11 @@ export default function CustomerSelect({
         setSearch("");
     };
 
-    const handleAddCustomerSuccess = () => {
+    const handleAddCustomerSuccess = (newCustomer) => {
         setShowAddModal(false);
-        onCustomerAdded?.();
+        // Reload page data to get updated customer list
+        router.reload({ only: ["customers"] });
+        onCustomerAdded?.(newCustomer);
     };
 
     return (

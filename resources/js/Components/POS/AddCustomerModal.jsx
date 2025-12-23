@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { router } from "@inertiajs/react";
+import axios from "axios";
 import {
     IconUserPlus,
     IconX,
@@ -29,7 +29,7 @@ export default function AddCustomerModal({ isOpen, onClose, onSuccess }) {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Basic validation
@@ -45,21 +45,35 @@ export default function AddCustomerModal({ isOpen, onClose, onSuccess }) {
 
         setIsSubmitting(true);
 
-        router.post(route("customers.store"), form, {
-            preserveScroll: true,
-            onSuccess: (page) => {
+        try {
+            const response = await axios.post(
+                route("customers.storeAjax"),
+                form
+            );
+
+            if (response.data.success) {
                 toast.success("Pelanggan berhasil ditambahkan");
                 setForm({ name: "", no_telp: "", address: "" });
                 setIsSubmitting(false);
-                onSuccess?.();
+                onSuccess?.(response.data.customer);
                 onClose();
-            },
-            onError: (errors) => {
-                setErrors(errors);
+            } else {
+                setErrors(response.data.errors || {});
+                toast.error(
+                    response.data.message || "Gagal menambahkan pelanggan"
+                );
                 setIsSubmitting(false);
-                toast.error("Gagal menambahkan pelanggan");
-            },
-        });
+            }
+        } catch (err) {
+            console.error("Add customer error:", err);
+            if (err.response?.data?.errors) {
+                setErrors(err.response.data.errors);
+            }
+            toast.error(
+                err.response?.data?.message || "Gagal menambahkan pelanggan"
+            );
+            setIsSubmitting(false);
+        }
     };
 
     const handleClose = () => {
