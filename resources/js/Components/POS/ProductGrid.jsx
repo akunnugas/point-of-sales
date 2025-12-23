@@ -112,15 +112,26 @@ function CategoryTab({ category, isActive, onClick }) {
 }
 
 // Search Input
-function SearchInput({ value, onChange, onSearch, isSearching, placeholder }) {
+function SearchInput({
+    value,
+    onChange,
+    onSearch,
+    isSearching,
+    placeholder,
+    inputRef,
+}) {
     return (
         <div className="relative">
             <input
+                ref={inputRef}
                 type="text"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && onSearch?.()}
-                placeholder={placeholder || "Cari produk atau scan barcode..."}
+                placeholder={
+                    placeholder ||
+                    "Cari produk atau scan barcode... (/ untuk fokus)"
+                }
                 className="w-full h-12 pl-4 pr-12 rounded-xl border border-slate-200 dark:border-slate-700
                     bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200
                     placeholder-slate-400 dark:placeholder-slate-500
@@ -151,6 +162,7 @@ export default function ProductGrid({
     isSearching,
     onAddToCart,
     addingProductId,
+    searchInputRef,
 }) {
     // Filter products by category and search
     const filteredProducts = products.filter((product) => {
@@ -172,7 +184,8 @@ export default function ProductGrid({
                     onChange={onSearchChange}
                     onSearch={onSearch}
                     isSearching={isSearching}
-                    placeholder="Cari produk atau scan barcode..."
+                    placeholder="Cari produk atau scan barcode... (tekan / untuk fokus)"
+                    inputRef={searchInputRef}
                 />
             </div>
 

@@ -5,6 +5,7 @@ import {
     IconCheck,
     IconChevronDown,
 } from "@tabler/icons-react";
+import { CustomerHistoryButton } from "./CustomerHistoryPanel";
 
 export default function CustomerSelect({
     customers = [],
@@ -63,68 +64,78 @@ export default function CustomerSelect({
                 </label>
             )}
 
-            {/* Select Button */}
-            <button
-                type="button"
-                onClick={() => setIsOpen(!isOpen)}
-                className={`
-                    w-full h-12 px-4 rounded-xl text-left
-                    flex items-center gap-3
-                    border-2 transition-all duration-200
-                    ${
-                        isOpen
-                            ? "border-primary-500 ring-4 ring-primary-500/20"
-                            : error
-                            ? "border-danger-500"
-                            : "border-slate-200 dark:border-slate-700"
-                    }
-                    bg-white dark:bg-slate-900
-                `}
-            >
-                <div
+            {/* Select Button with History */}
+            <div className="flex items-center gap-2">
+                <button
+                    type="button"
+                    onClick={() => setIsOpen(!isOpen)}
                     className={`
-                    w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0
-                    ${
-                        selected
-                            ? "bg-primary-100 dark:bg-primary-900/50"
-                            : "bg-slate-100 dark:bg-slate-800"
-                    }
-                `}
-                >
-                    <IconUser
-                        size={18}
-                        className={
-                            selected
-                                ? "text-primary-600 dark:text-primary-400"
-                                : "text-slate-400"
+                        flex-1 h-12 px-4 rounded-xl text-left
+                        flex items-center gap-3
+                        border-2 transition-all duration-200
+                        ${
+                            isOpen
+                                ? "border-primary-500 ring-4 ring-primary-500/20"
+                                : error
+                                ? "border-danger-500"
+                                : "border-slate-200 dark:border-slate-700"
                         }
-                    />
-                </div>
-                <div className="flex-1 min-w-0">
-                    {selected ? (
-                        <>
-                            <p className="text-sm font-medium text-slate-800 dark:text-slate-200 truncate">
-                                {selected.name}
-                            </p>
-                            {selected.phone && (
-                                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
-                                    {selected.phone}
+                        bg-white dark:bg-slate-900
+                    `}
+                >
+                    <div
+                        className={`
+                        w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0
+                        ${
+                            selected
+                                ? "bg-primary-100 dark:bg-primary-900/50"
+                                : "bg-slate-100 dark:bg-slate-800"
+                        }
+                    `}
+                    >
+                        <IconUser
+                            size={18}
+                            className={
+                                selected
+                                    ? "text-primary-600 dark:text-primary-400"
+                                    : "text-slate-400"
+                            }
+                        />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                        {selected ? (
+                            <>
+                                <p className="text-sm font-medium text-slate-800 dark:text-slate-200 truncate">
+                                    {selected.name}
                                 </p>
-                            )}
-                        </>
-                    ) : (
-                        <p className="text-sm text-slate-400 dark:text-slate-500">
-                            {placeholder}
-                        </p>
-                    )}
-                </div>
-                <IconChevronDown
-                    size={18}
-                    className={`text-slate-400 transition-transform ${
-                        isOpen ? "rotate-180" : ""
-                    }`}
-                />
-            </button>
+                                {selected.phone && (
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                                        {selected.phone}
+                                    </p>
+                                )}
+                            </>
+                        ) : (
+                            <p className="text-sm text-slate-400 dark:text-slate-500">
+                                {placeholder}
+                            </p>
+                        )}
+                    </div>
+                    <IconChevronDown
+                        size={18}
+                        className={`text-slate-400 transition-transform ${
+                            isOpen ? "rotate-180" : ""
+                        }`}
+                    />
+                </button>
+
+                {/* History Button - Show when customer is selected */}
+                {selected && (
+                    <CustomerHistoryButton
+                        customerId={selected.id}
+                        customerName={selected.name}
+                    />
+                )}
+            </div>
 
             {/* Error Message */}
             {error && <p className="mt-1 text-xs text-danger-500">{error}</p>}

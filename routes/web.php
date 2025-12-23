@@ -58,6 +58,10 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function () {
         ->middlewareFor(['create', 'store'], 'permission:customers-create')
         ->middlewareFor(['edit', 'update'], 'permission:customers-edit')
         ->middlewareFor('destroy', 'permission:customers-delete');
+
+    //route customer history
+    Route::get('/customers/{customer}/history', [CustomerController::class, 'getHistory'])->middleware('permission:transactions-access')->name('customers.history');
+
     //route transaction
     Route::get('/transactions', [TransactionController::class, 'index'])->middleware('permission:transactions-access')->name('transactions.index');
 

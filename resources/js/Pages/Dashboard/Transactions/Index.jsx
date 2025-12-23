@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useState, useCallback } from "react";
+import React, {
+    useEffect,
+    useMemo,
+    useState,
+    useCallback,
+    useRef,
+} from "react";
 import { Head, router, usePage } from "@inertiajs/react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -59,6 +65,9 @@ export default function Index({
     const [mobileView, setMobileView] = useState("products"); // 'products' | 'cart'
     const [numpadOpen, setNumpadOpen] = useState(false);
     const [showShortcuts, setShowShortcuts] = useState(false);
+
+    // Ref for search input to enable keyboard focus
+    const searchInputRef = useRef(null);
 
     // Set default payment method
     useEffect(() => {
@@ -228,6 +237,14 @@ export default function Index({
                 return;
 
             switch (e.key) {
+                case "/":
+                case "F5":
+                    e.preventDefault();
+                    // Focus search input
+                    if (searchInputRef.current) {
+                        searchInputRef.current.focus();
+                    }
+                    break;
                 case "F1":
                     e.preventDefault();
                     setNumpadOpen(true);
@@ -250,6 +267,7 @@ export default function Index({
                 case "Escape":
                     setNumpadOpen(false);
                     setShowShortcuts(false);
+                    setSearchQuery("");
                     break;
             }
         };
@@ -392,6 +410,7 @@ export default function Index({
                         isSearching={isSearching}
                         onAddToCart={handleAddToCart}
                         addingProductId={addingProductId}
+                        searchInputRef={searchInputRef}
                     />
                 </div>
 
