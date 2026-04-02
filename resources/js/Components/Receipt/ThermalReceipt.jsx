@@ -12,7 +12,7 @@ import React from "react";
  */
 export default function ThermalReceipt({
     transaction,
-    storeName = "TOKO ANDA",
+    storeName = "Foodcourt HUSADA",
     storeAddress = "",
     storePhone = "",
 }) {
@@ -41,6 +41,7 @@ export default function ThermalReceipt({
 
     const paymentLabels = {
         cash: "TUNAI",
+        qris_transfer: "QRIS/TRANSFER",
         midtrans: "MIDTRANS",
         xendit: "XENDIT",
     };

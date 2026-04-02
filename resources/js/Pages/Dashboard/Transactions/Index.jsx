@@ -110,10 +110,10 @@ export default function Index({
         () => Math.max(subtotal - discount, 0),
         [subtotal, discount]
     );
-    const isCashPayment = paymentMethod === "cash";
+    const isDirectPayment = paymentMethod === "cash" || paymentMethod === "qris_transfer";
     const cash = useMemo(
-        () => (isCashPayment ? Math.max(0, Number(cashInput) || 0) : payable),
-        [cashInput, isCashPayment, payable]
+        () => (isDirectPayment ? Math.max(0, Number(cashInput) || 0) : payable),
+        [cashInput, isDirectPayment, payable]
     );
     const cartCount = useMemo(
         () => carts.reduce((total, item) => total + Number(item.qty), 0),
@@ -135,16 +135,21 @@ export default function Index({
                 label: "Tunai",
                 description: "Pembayaran tunai langsung di kasir.",
             },
+            {
+                value: "qris_transfer",
+                label: "QRIS/Transfer",
+                description: "Pembayaran via QRIS atau transfer bank.",
+            },
             ...options,
         ];
     }, [paymentGateways]);
 
-    // Auto-set cash input for non-cash payment
+    // Auto-set cash input for non-cash payment or QRIS/Transfer
     useEffect(() => {
-        if (!isCashPayment && payable >= 0) {
+        if ((paymentMethod === "qris_transfer" || !isDirectPayment) && payable >= 0) {
             setCashInput(String(payable));
         }
-    }, [isCashPayment, payable]);
+    }, [isDirectPayment, payable]);
 
     // Handle add product to cart
     const handleAddToCart = async (product) => {
@@ -299,7 +304,7 @@ export default function Index({
             return;
         }
 
-        if (isCashPayment && cash < payable) {
+        if (isDirectPayment && cash < payable) {
             toast.error("Jumlah pembayaran kurang dari total");
             return;
         }
@@ -312,9 +317,10 @@ export default function Index({
                 customer_id: selectedCustomer?.id || null,
                 discount,
                 grand_total: payable,
-                cash: isCashPayment ? cash : payable,
-                change: isCashPayment ? Math.max(cash - payable, 0) : 0,
-                payment_gateway: isCashPayment ? null : paymentMethod,
+                cash: isDirectPayment ? cash : payable,
+                change: isDirectPayment ? Math.max(cash - payable, 0) : 0,
+                payment_gateway: isDirectPayment ? null : paymentMethod,
+                payment_method: paymentMethod,
             },
             {
                 onSuccess: () => {

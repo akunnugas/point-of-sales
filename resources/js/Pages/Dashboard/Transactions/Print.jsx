@@ -34,6 +34,7 @@ export default function Print({ transaction }) {
 
     const paymentLabels = {
         cash: "Tunai",
+        qris_transfer: "QRIS/Transfer",
         midtrans: "Midtrans",
         xendit: "Xendit",
     };
@@ -64,7 +65,7 @@ export default function Print({ transaction }) {
     const paymentStatusColor =
         statusColors[paymentStatusKey] ?? statusColors.paid;
 
-    const isNonCash = paymentMethodKey !== "cash";
+    const isNonCash = paymentMethodKey !== "cash" && paymentMethodKey !== "qris_transfer";
     const showPaymentLink = isNonCash && transaction.payment_url;
 
     const handlePrint = () => {
@@ -165,15 +166,15 @@ export default function Print({ transaction }) {
                                 {printMode === "thermal80" ? (
                                     <ThermalReceipt
                                         transaction={transaction}
-                                        storeName="TOKO ANDA"
-                                        storeAddress="Jl. Contoh No. 123"
-                                        storePhone="08123456789"
+                                        storeName="Foodcourt HUSADA"
+                                        storeAddress="Koperasi HUSADA"
+                                        storePhone="0896-0990-8090"
                                     />
                                 ) : (
                                     <ThermalReceipt58mm
                                         transaction={transaction}
-                                        storeName="TOKO"
-                                        storePhone="08123456789"
+                                        storeName="Foodcourt HUSADA"
+                                        storePhone="0896-0990-8090"
                                     />
                                 )}
                             </div>
@@ -336,7 +337,7 @@ export default function Print({ transaction }) {
                                             )}
                                         </span>
                                     </div>
-                                    {paymentMethodKey === "cash" && (
+                                    {(paymentMethodKey === "cash" || paymentMethodKey === "qris_transfer") && (
                                         <>
                                             <div className="flex justify-between text-slate-600 dark:text-slate-400 pt-2">
                                                 <span>Tunai</span>

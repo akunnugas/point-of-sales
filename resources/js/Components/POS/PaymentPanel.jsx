@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import {
     IconCash,
     IconCreditCard,
+    IconQrcode,
     IconReceipt,
     IconArrowRight,
     IconCheck,
@@ -38,7 +39,7 @@ function QuickAmountButton({ amount, onClick, isSelected }) {
 
 // Payment Method Card
 function PaymentMethodCard({ method, isSelected, onClick }) {
-    const IconComponent = method.value === "cash" ? IconCash : IconCreditCard;
+    const IconComponent = method.value === "cash" ? IconCash : method.value === "qris_transfer" ? IconQrcode : IconCreditCard;
 
     return (
         <button
@@ -114,7 +115,7 @@ export default function PaymentPanel({
 
     // Calculations
     const payable = Math.max(subtotal - discount, 0);
-    const isCashPayment = paymentMethod === "cash";
+    const isCashPayment = paymentMethod === "cash" || paymentMethod === "qris_transfer";
     const change = isCashPayment ? Math.max(cash - payable, 0) : 0;
     const remaining = isCashPayment ? Math.max(payable - cash, 0) : 0;
 

@@ -55,6 +55,13 @@ const formatCurrency = (value = 0) =>
         minimumFractionDigits: 0,
     }).format(value);
 
+const paymentMethodLabels = {
+    cash: "Tunai",
+    qris_transfer: "QRIS/Transfer",
+    midtrans: "Midtrans",
+    xendit: "Xendit",
+};
+
 const ProfitReport = ({
     transactions,
     summary,
@@ -328,6 +335,9 @@ const ProfitReport = ({
                                         <th className="px-4 py-4 text-right text-xs font-semibold text-slate-500 uppercase">
                                             Penjualan
                                         </th>
+                                        <th className="px-4 py-4 text-center text-xs font-semibold text-slate-500 uppercase">
+                                            Metode
+                                        </th>
                                         <th className="px-4 py-4 text-right text-xs font-semibold text-slate-500 uppercase">
                                             Profit
                                         </th>
@@ -365,6 +375,11 @@ const ProfitReport = ({
                                                 {formatCurrency(
                                                     trx.grand_total ?? 0
                                                 )}
+                                            </td>
+                                            <td className="px-4 py-4 text-center">
+                                                <span className="px-2 py-0.5 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-md">
+                                                    {paymentMethodLabels[(trx.payment_method || "cash").toLowerCase()] ?? "Tunai"}
+                                                </span>
                                             </td>
                                             <td className="px-4 py-4 text-right text-sm font-semibold text-success-600 dark:text-success-400">
                                                 {formatCurrency(

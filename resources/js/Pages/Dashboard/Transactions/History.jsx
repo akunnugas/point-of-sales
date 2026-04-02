@@ -28,6 +28,13 @@ const formatCurrency = (value = 0) =>
         minimumFractionDigits: 0,
     }).format(value);
 
+const paymentMethodLabels = {
+    cash: "Tunai",
+    qris_transfer: "QRIS/Transfer",
+    midtrans: "Midtrans",
+    xendit: "Xendit",
+};
+
 const History = ({ transactions, filters }) => {
     const [filterData, setFilterData] = useState({
         ...defaultFilters,
@@ -226,6 +233,9 @@ const History = ({ transactions, filters }) => {
                                         <th className="px-4 py-4 text-right text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                                             Total
                                         </th>
+                                        <th className="px-4 py-4 text-center text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                            Metode
+                                        </th>
                                         <th className="px-4 py-4 text-right text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                                             Profit
                                         </th>
@@ -271,6 +281,11 @@ const History = ({ transactions, filters }) => {
                                                 {formatCurrency(
                                                     transaction.grand_total ?? 0
                                                 )}
+                                            </td>
+                                            <td className="px-4 py-4 text-center">
+                                                <span className="px-2 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-md">
+                                                    {paymentMethodLabels[(transaction.payment_method || "cash").toLowerCase()] ?? "Tunai"}
+                                                </span>
                                             </td>
                                             <td className="px-4 py-4 text-right text-sm font-semibold text-success-600 dark:text-success-400">
                                                 {formatCurrency(
