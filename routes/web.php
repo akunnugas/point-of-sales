@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Apps\AuditLogController;
 use App\Http\Controllers\Apps\CategoryController;
 use App\Http\Controllers\Apps\CustomerController;
 use App\Http\Controllers\Apps\PaymentSettingController;
@@ -93,6 +94,9 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function () {
     Route::get('/reports/sales/export', [SalesReportController::class, 'export'])->middleware('permission:reports-access')->name('reports.sales.export');
     Route::get('/reports/profits', [ProfitReportController::class, 'index'])->middleware('permission:profits-access')->name('reports.profits.index');
     Route::get('/reports/profits/export', [ProfitReportController::class, 'export'])->middleware('permission:profits-access')->name('reports.profits.export');
+
+    // audit logs
+    Route::get('/audit-logs', [AuditLogController::class, 'index'])->middleware('permission:audit-logs-access')->name('audit-logs.index');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

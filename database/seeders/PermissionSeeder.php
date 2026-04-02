@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
@@ -34,25 +33,25 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'permissions-update']);
         Permission::create(['name' => 'permissions-delete']);
 
-        //permission categories
+        // permission categories
         Permission::create(['name' => 'categories-access']);
         Permission::create(['name' => 'categories-create']);
         Permission::create(['name' => 'categories-edit']);
         Permission::create(['name' => 'categories-delete']);
 
-        //permission products
+        // permission products
         Permission::create(['name' => 'products-access']);
         Permission::create(['name' => 'products-create']);
         Permission::create(['name' => 'products-edit']);
         Permission::create(['name' => 'products-delete']);
 
-        //permission customers
+        // permission customers
         Permission::create(['name' => 'customers-access']);
         Permission::create(['name' => 'customers-create']);
         Permission::create(['name' => 'customers-edit']);
         Permission::create(['name' => 'customers-delete']);
 
-        //permission transactions
+        // permission transactions
         Permission::create(['name' => 'transactions-access']);
 
         // permission reports
@@ -61,5 +60,8 @@ class PermissionSeeder extends Seeder
 
         // payment settings
         Permission::create(['name' => 'payment-settings-access']);
+
+        // audit logs
+        Permission::create(['name' => 'audit-logs-access']);
     }
 }
