@@ -46,6 +46,7 @@ const defaultFilters = {
     invoice: "",
     cashier_id: "",
     customer_id: "",
+    payment_method: "",
 };
 
 const formatCurrency = (value = 0) =>
@@ -121,7 +122,8 @@ const ProfitReport = ({
         filterData.start_date ||
         filterData.end_date ||
         filterData.cashier_id ||
-        filterData.customer_id;
+        filterData.customer_id ||
+        filterData.payment_method;
 
     const stats = {
         profit_total: summary?.profit_total ?? 0,
@@ -206,7 +208,7 @@ const ProfitReport = ({
                 {showFilters && (
                     <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 animate-slide-up">
                         <form onSubmit={applyFilters}>
-                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                                         Tanggal Mulai
@@ -284,6 +286,26 @@ const ProfitReport = ({
                                     placeholder="Semua pelanggan"
                                     searchable
                                 />
+                                <div>
+                                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                                        Metode Pembayaran
+                                    </label>
+                                    <select
+                                        value={filterData.payment_method}
+                                        onChange={(e) =>
+                                            handleChange(
+                                                "payment_method",
+                                                e.target.value
+                                            )
+                                        }
+                                        className="w-full h-11 px-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all"
+                                    >
+                                        <option value="">Semua</option>
+                                        {Object.entries(paymentMethodLabels).map(([value, label]) => (
+                                            <option key={value} value={value}>{label}</option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
                             <div className="flex justify-end gap-2 mt-4">
                                 {hasActiveFilters && (
