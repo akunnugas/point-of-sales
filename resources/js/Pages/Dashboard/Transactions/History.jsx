@@ -6,6 +6,8 @@ import Table from "@/Components/Dashboard/Table";
 import Pagination from "@/Components/Dashboard/Pagination";
 import {
     IconDatabaseOff,
+    IconFileSpreadsheet,
+    IconLoader2,
     IconSearch,
     IconHistory,
     IconCalendar,
@@ -42,6 +44,7 @@ const History = ({ transactions, filters }) => {
         ...filters,
     });
     const [showFilters, setShowFilters] = useState(false);
+    const [isExporting, setIsExporting] = useState(false);
 
     useEffect(() => {
         setFilterData({
@@ -118,6 +121,25 @@ const History = ({ transactions, filters }) => {
                             {hasActiveFilters && (
                                 <span className="w-2 h-2 rounded-full bg-primary-500"></span>
                             )}
+                        </button>
+                        <button
+                            disabled={isExporting}
+                            onClick={() => {
+                                setIsExporting(true);
+                                const url = route("transactions.history.export", filterData);
+                                const a = document.createElement("a");
+                                a.href = url;
+                                a.click();
+                                setTimeout(() => setIsExporting(false), 3000);
+                            }}
+                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-success-500 hover:bg-success-600 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors shadow-lg shadow-success-500/30"
+                        >
+                            {isExporting ? (
+                                <IconLoader2 size={18} className="animate-spin" />
+                            ) : (
+                                <IconFileSpreadsheet size={18} />
+                            )}
+                            <span>{isExporting ? "Mengexport..." : "Export Excel"}</span>
                         </button>
                         <Link
                             href={route("transactions.index")}

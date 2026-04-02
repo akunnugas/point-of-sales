@@ -7,6 +7,8 @@ import Pagination from "@/Components/Dashboard/Pagination";
 import {
     IconCoin,
     IconDatabaseOff,
+    IconFileSpreadsheet,
+    IconLoader2,
     IconPercentage,
     IconReceipt,
     IconTrendingUp,
@@ -71,6 +73,7 @@ const ProfitReport = ({
     customers,
 }) => {
     const [showFilters, setShowFilters] = useState(false);
+    const [isExporting, setIsExporting] = useState(false);
     const [filterData, setFilterData] = useState({
         ...defaultFilters,
         ...filters,
@@ -181,20 +184,41 @@ const ProfitReport = ({
                             Analisis profit dan margin
                         </p>
                     </div>
-                    <button
-                        onClick={() => setShowFilters(!showFilters)}
-                        className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors ${
-                            showFilters || hasActiveFilters
-                                ? "bg-primary-50 border-primary-200 text-primary-700 dark:bg-primary-950/50 dark:border-primary-800 dark:text-primary-400"
-                                : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300"
-                        }`}
-                    >
-                        <IconFilter size={18} />
-                        <span>Filter</span>
-                        {hasActiveFilters && (
-                            <span className="w-2 h-2 rounded-full bg-primary-500"></span>
-                        )}
-                    </button>
+                    <div className="flex gap-2">
+                        <button
+                            onClick={() => setShowFilters(!showFilters)}
+                            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors ${
+                                showFilters || hasActiveFilters
+                                    ? "bg-primary-50 border-primary-200 text-primary-700 dark:bg-primary-950/50 dark:border-primary-800 dark:text-primary-400"
+                                    : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300"
+                            }`}
+                        >
+                            <IconFilter size={18} />
+                            <span>Filter</span>
+                            {hasActiveFilters && (
+                                <span className="w-2 h-2 rounded-full bg-primary-500"></span>
+                            )}
+                        </button>
+                        <button
+                            disabled={isExporting}
+                            onClick={() => {
+                                setIsExporting(true);
+                                const url = route("reports.profits.export", filterData);
+                                const a = document.createElement("a");
+                                a.href = url;
+                                a.click();
+                                setTimeout(() => setIsExporting(false), 3000);
+                            }}
+                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-success-500 hover:bg-success-600 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors shadow-lg shadow-success-500/30"
+                        >
+                            {isExporting ? (
+                                <IconLoader2 size={18} className="animate-spin" />
+                            ) : (
+                                <IconFileSpreadsheet size={18} />
+                            )}
+                            <span>{isExporting ? "Mengexport..." : "Export Excel"}</span>
+                        </button>
+                    </div>
                 </div>
 
                 {/* Summary Cards */}

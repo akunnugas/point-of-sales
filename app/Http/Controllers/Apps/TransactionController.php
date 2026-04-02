@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Apps;
 
 use App\Exceptions\PaymentGatewayException;
+use App\Exports\TransactionHistoryExport;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Customer;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
@@ -541,5 +543,21 @@ class TransactionController extends Controller
             'transactions' => $transactions,
             'filters' => $filters,
         ]);
+    }
+
+    public function exportHistory(Request $request): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        $filters = [
+            'invoice' => $request->input('invoice'),
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),
+            'payment_method' => $request->input('payment_method'),
+        ];
+
+        $cashierId = ! $request->user()->isSuperAdmin() ? $request->user()->id : null;
+
+        $filename = 'riwayat-transaksi-'.now()->format('Y-m-d').'.xlsx';
+
+        return Excel::download(new TransactionHistoryExport($filters, $cashierId), $filename);
     }
 }
