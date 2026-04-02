@@ -1,0 +1,19 @@
+{
+    "mcpServers": {
+        "instruckt": {
+            "command": "php",
+            "args": [
+                "/var/www/pos/point-of-sales/artisan",
+                "mcp:start",
+                "instruckt"
+            ]
+        },
+        "laravel-boost": {
+            "command": "php",
+            "args": [
+                "artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}

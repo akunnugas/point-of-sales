@@ -12,7 +12,7 @@ import ThermalReceipt, {
 } from "@/Components/Receipt/ThermalReceipt";
 
 export default function Print({ transaction }) {
-    const [printMode, setPrintMode] = useState("invoice"); // 'invoice' | 'thermal80' | 'thermal58'
+    const [printMode, setPrintMode] = useState("thermal80"); // 'invoice' | 'thermal80' | 'thermal58'
 
     const formatPrice = (price = 0) =>
         Number(price || 0).toLocaleString("id-ID", {

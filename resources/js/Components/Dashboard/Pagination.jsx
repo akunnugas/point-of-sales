@@ -19,7 +19,7 @@ export default function Pagination({ links }) {
                                 <IconChevronRight size={'20'} strokeWidth={'1.5'} />
                             </Link>
                         ) : (
-                            <Link className={`px-2 py-1 text-sm border  rounded-md text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-900 dark:border-gray-900 ${item.active ? 'bg-white text-gray-700 dark:bg-gray-900 dark:text-gray-50' : 'bg-white dark:bg-gray-950'}`} key={i} href={item.url}>
+                            <Link className={`px-2 py-1 text-sm border rounded-md ${item.active ? 'bg-blue-600 text-white border-blue-600 dark:bg-blue-500 dark:border-blue-500 dark:text-white' : 'bg-white text-gray-500 hover:bg-gray-100 dark:bg-gray-950 dark:text-gray-400 dark:hover:bg-gray-900 dark:border-gray-900'}`} key={i} href={item.url}>
                                 {item.label}
                             </Link>
                         )
