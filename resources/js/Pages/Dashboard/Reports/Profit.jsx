@@ -8,6 +8,7 @@ import {
     IconCoin,
     IconDatabaseOff,
     IconFileSpreadsheet,
+    IconLoader2,
     IconPercentage,
     IconReceipt,
     IconTrendingUp,
@@ -72,6 +73,7 @@ const ProfitReport = ({
     customers,
 }) => {
     const [showFilters, setShowFilters] = useState(false);
+    const [isExporting, setIsExporting] = useState(false);
     const [filterData, setFilterData] = useState({
         ...defaultFilters,
         ...filters,
@@ -197,13 +199,25 @@ const ProfitReport = ({
                                 <span className="w-2 h-2 rounded-full bg-primary-500"></span>
                             )}
                         </button>
-                        <a
-                            href={route("reports.profits.export", filterData)}
-                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-success-500 hover:bg-success-600 text-white text-sm font-medium transition-colors shadow-lg shadow-success-500/30"
+                        <button
+                            disabled={isExporting}
+                            onClick={() => {
+                                setIsExporting(true);
+                                const url = route("reports.profits.export", filterData);
+                                const a = document.createElement("a");
+                                a.href = url;
+                                a.click();
+                                setTimeout(() => setIsExporting(false), 3000);
+                            }}
+                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-success-500 hover:bg-success-600 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors shadow-lg shadow-success-500/30"
                         >
-                            <IconFileSpreadsheet size={18} />
-                            <span>Export Excel</span>
-                        </a>
+                            {isExporting ? (
+                                <IconLoader2 size={18} className="animate-spin" />
+                            ) : (
+                                <IconFileSpreadsheet size={18} />
+                            )}
+                            <span>{isExporting ? "Mengexport..." : "Export Excel"}</span>
+                        </button>
                     </div>
                 </div>
 
