@@ -21,6 +21,7 @@ class ProfitReportController extends Controller
             'invoice' => $request->input('invoice'),
             'cashier_id' => $request->input('cashier_id'),
             'customer_id' => $request->input('customer_id'),
+            'payment_method' => $request->input('payment_method'),
         ];
 
         $baseQuery = $this->applyFilters(
@@ -78,6 +79,7 @@ class ProfitReportController extends Controller
             ->when($filters['cashier_id'] ?? null, fn ($q, $cashier) => $q->where('cashier_id', $cashier))
             ->when($filters['customer_id'] ?? null, fn ($q, $customer) => $q->where('customer_id', $customer))
             ->when($filters['start_date'] ?? null, fn ($q, $start) => $q->whereDate('created_at', '>=', $start))
-            ->when($filters['end_date'] ?? null, fn ($q, $end) => $q->whereDate('created_at', '<=', $end));
+            ->when($filters['end_date'] ?? null, fn ($q, $end) => $q->whereDate('created_at', '<=', $end))
+            ->when($filters['payment_method'] ?? null, fn ($q, $method) => $q->where('payment_method', $method));
     }
 }

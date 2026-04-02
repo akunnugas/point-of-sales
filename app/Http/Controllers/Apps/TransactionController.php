@@ -508,6 +508,7 @@ class TransactionController extends Controller
             'invoice' => $request->input('invoice'),
             'start_date' => $request->input('start_date'),
             'end_date' => $request->input('end_date'),
+            'payment_method' => $request->input('payment_method'),
         ];
 
         $query = Transaction::query()
@@ -529,6 +530,9 @@ class TransactionController extends Controller
             })
             ->when($filters['end_date'], function (Builder $builder, $date) {
                 $builder->whereDate('created_at', '<=', $date);
+            })
+            ->when($filters['payment_method'], function (Builder $builder, $method) {
+                $builder->where('payment_method', $method);
             });
 
         $transactions = $query->paginate(10)->withQueryString();
