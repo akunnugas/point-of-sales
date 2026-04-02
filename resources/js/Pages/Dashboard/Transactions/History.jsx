@@ -6,6 +6,7 @@ import Table from "@/Components/Dashboard/Table";
 import Pagination from "@/Components/Dashboard/Pagination";
 import {
     IconDatabaseOff,
+    IconFileSpreadsheet,
     IconSearch,
     IconHistory,
     IconCalendar,
@@ -119,6 +120,13 @@ const History = ({ transactions, filters }) => {
                                 <span className="w-2 h-2 rounded-full bg-primary-500"></span>
                             )}
                         </button>
+                        <a
+                            href={route("transactions.history.export", filterData)}
+                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-success-500 hover:bg-success-600 text-white text-sm font-medium transition-colors shadow-lg shadow-success-500/30"
+                        >
+                            <IconFileSpreadsheet size={18} />
+                            <span>Export Excel</span>
+                        </a>
                         <Link
                             href={route("transactions.index")}
                             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-colors shadow-lg shadow-primary-500/30"

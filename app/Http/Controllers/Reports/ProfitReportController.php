@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Reports;
 
+use App\Exports\ProfitReportExport;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Profit;
@@ -10,6 +11,7 @@ use App\Models\TransactionDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProfitReportController extends Controller
 {
@@ -72,10 +74,29 @@ class ProfitReportController extends Controller
         ]);
     }
 
+    /**
+     * Export profit report to Excel.
+     */
+    public function export(Request $request): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        $filters = [
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),
+            'invoice' => $request->input('invoice'),
+            'cashier_id' => $request->input('cashier_id'),
+            'customer_id' => $request->input('customer_id'),
+            'payment_method' => $request->input('payment_method'),
+        ];
+
+        $filename = 'laporan-keuntungan-'.now()->format('Y-m-d').'.xlsx';
+
+        return Excel::download(new ProfitReportExport($filters), $filename);
+    }
+
     protected function applyFilters($query, array $filters)
     {
         return $query
-            ->when($filters['invoice'] ?? null, fn ($q, $invoice) => $q->where('invoice', 'like', '%' . $invoice . '%'))
+            ->when($filters['invoice'] ?? null, fn ($q, $invoice) => $q->where('invoice', 'like', '%'.$invoice.'%'))
             ->when($filters['cashier_id'] ?? null, fn ($q, $cashier) => $q->where('cashier_id', $cashier))
             ->when($filters['customer_id'] ?? null, fn ($q, $customer) => $q->where('customer_id', $customer))
             ->when($filters['start_date'] ?? null, fn ($q, $start) => $q->whereDate('created_at', '>=', $start))
