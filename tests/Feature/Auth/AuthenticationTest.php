@@ -4,6 +4,8 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -27,7 +29,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect(route('transactions.index', absolute: false));
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
@@ -54,8 +56,8 @@ class AuthenticationTest extends TestCase
 
     public function test_user_without_dashboard_permission_is_logged_out_to_prevent_redirect_loop(): void
     {
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-        \Spatie\Permission\Models\Permission::create(['name' => 'dashboard-access']);
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+        Permission::create(['name' => 'dashboard-access']);
 
         $user = User::factory()->create();
 

@@ -24,6 +24,9 @@ return Application::configure(basePath: dirname(__DIR__))
             AddLinkHeadersForPreloadedAssets::class,
         ]);
 
+        $middleware->redirectGuestsTo('/login');
+        $middleware->redirectUsersTo('/dashboard/transactions');
+
         $middleware->alias([
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
@@ -52,7 +55,7 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             return redirect()
-                ->back(fallback: route('dashboard'))
+                ->back(fallback: route('transactions.index'))
                 ->with('error', $message);
         });
     })->create();

@@ -16,7 +16,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->route('transactions.index');
 });
 
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth']], function () {
