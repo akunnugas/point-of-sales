@@ -51,4 +51,18 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
         $response->assertRedirect('/');
     }
+
+    public function test_user_without_dashboard_permission_is_logged_out_to_prevent_redirect_loop(): void
+    {
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        \Spatie\Permission\Models\Permission::create(['name' => 'dashboard-access']);
+
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('dashboard'));
+
+        $this->assertGuest();
+        $response->assertRedirect(route('login'));
+        $response->assertSessionHas('error');
+    }
 }
