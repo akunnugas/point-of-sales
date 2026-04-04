@@ -442,7 +442,7 @@ const Sales = ({ transactions, summary, filters, cashiers, customers }) => {
                                                 {trx.created_at}
                                             </td>
                                             <td className="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">
-                                                {trx.customer?.name ?? "-"}
+                                                {trx.customer?.name ?? "Umum"}
                                             </td>
                                             <td className="px-4 py-4 text-sm text-slate-600 dark:text-slate-400">
                                                 {trx.cashier?.name ?? "-"}
