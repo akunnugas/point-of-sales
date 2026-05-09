@@ -40,7 +40,9 @@ class Product extends Model
         return Attribute::make(
             get: function ($value) {
                 if ($value && !str_starts_with($value, 'http')) {
-                    return Storage::url($value);
+                    $path = str_starts_with($value, 'products/') ? $value : 'products/' . $value;
+
+                    return Storage::url($path);
                 }
                 return $value;
             },
