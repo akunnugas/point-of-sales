@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage; // <-- WAJIB TAMBAHKAN IMPORT INI
 
 class Product extends Model
 {
@@ -37,7 +38,12 @@ class Product extends Model
     protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => asset('/storage/products/'.$value),
+            get: function ($value) {
+                if ($value && !str_starts_with($value, 'http')) {
+                    return Storage::url($value);
+                }
+                return $value;
+            },
         );
     }
 }
